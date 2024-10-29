@@ -34,7 +34,7 @@ for ($i = 0; $i < 10; $i++) {
 
 ### Database (WIP)
 
-```pgp
+```php
 <?php
 
 require_once LIB . 'db/db.php';
@@ -43,6 +43,8 @@ db_rows('select * from users'); // select all rows table
 db_row('select * from users where id=?', $_REQUEST['id']); // select a single row
 
 db('create table posts....'); // or just simply execute any queries
+
+```
 
 ### Migrations
 
