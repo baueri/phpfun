@@ -30,3 +30,12 @@ function is_cli(): bool
 {
     return PHP_SAPI === 'cli';
 }
+
+function log_dump(...$arr): void
+{
+    $log = '[' . date('Y-m-d H:i:s') . '] - ';
+    foreach ($arr as $item) {
+        $log .= print_r($item, true) . PHP_EOL;
+    }
+    file_put_contents(STORAGE . 'fun.log', $log, FILE_APPEND);
+}

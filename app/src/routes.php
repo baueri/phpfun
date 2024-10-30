@@ -10,5 +10,5 @@ return [
     '/user/create' => [SRC . 'controller/user.php', 'user_create_form'],
     '/user/create@post' => [SRC . 'controller/user.php', 'user_create_user'],
     '/about' => fn () => response(view('about.php', ['name' => $_REQUEST['name'] ?? 'Nobody'])),
-    '/404' => fn () => response('<h1>404</h1>', 404)
+    '/404' => fn () => response(view('404.php'), 404)
 ];

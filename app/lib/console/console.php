@@ -2,11 +2,11 @@
 
 require __DIR__ . '/../../app.php';
 
-global $argv;
+function console_get_args(): array
+{
+    global $argv;
+    $args = $argv;
+    array_shift($args);
 
-array_shift($argv);
-$command = array_shift($argv);
-
-$args = $argv;
-
-require LIB . 'console/commands/' . $command . '.php';
+    return $args;
+}

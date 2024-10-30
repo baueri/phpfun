@@ -10,3 +10,8 @@ function view(string $file, array $args = []): string
 
     return ob_get_clean();
 }
+
+function inject_into(string $destination)
+{
+
+}

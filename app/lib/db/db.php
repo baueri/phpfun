@@ -3,22 +3,25 @@
 /**
  * Connect to the database using PDO.
  */
-function db_connect(): ?PDO
+function db_connect(?string $connection = null): ?PDO
 {
-    static $pdo = null;
+    static $connections;
 
-    if ($pdo === null) {
-        ['host' => $host, 'database' => $dbname, 'user' => $username, 'password' => $password] = cfg('db');
+    $connections ??= [];
 
-        // Use try-catch to handle connection errors
-        try {
-            $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            ]);
-        } catch (PDOException $e) {
-            die('Database connection failed: ' . $e->getMessage());
-        }
+    if (isset($connections[$connection])) {
+        return $connections[$connection];
+    }
+
+    ['host' => $host, 'database' => $dbname, 'user' => $username, 'password' => $password] = cfg('db_connections')[$connection ?: 'default'];
+
+    try {
+        $connections[$connection] = $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
+    } catch (PDOException $e) {
+        die('Database connection failed: ' . $e->getMessage());
     }
 
     return $pdo;
@@ -86,6 +89,11 @@ function db_create_row(string $table, array $data): array
     return $data;
 }
 
+function db_value(string $query, ...$params): mixed
+{
+    return db($query, ...$params)->fetchColumn();
+}
+
 /**
  * Update a row if it exists; insert if it does not.
  *
@@ -142,3 +150,4 @@ function db_exists(string $query, ...$params): bool
 {
     return (bool) db_row($query, ...$params);
 }
+

@@ -26,7 +26,7 @@ function event(string|callable $action, $event = null, $payload = null)
     }
 }
 
-function event_distpatch(string $event, $payload = null): void
+function event_dispatch(string $event, $payload = null): void
 {
     event('dispatch', $event, $payload);
 }

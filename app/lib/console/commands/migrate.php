@@ -1,8 +1,8 @@
 <?php
-
+require __DIR__ . '/../console.php';
 require LIB . 'db/migration.php';
 
-[$direction] = $args + [null];
+[$direction] = $args = console_get_args() + [null];
 
 switch ($direction) {
     case 'up':
